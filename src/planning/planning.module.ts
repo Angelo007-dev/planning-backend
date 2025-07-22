@@ -3,7 +3,7 @@ import { PlanningService } from './planning.service';
 import { PlanningController } from './planning.controller';
 
 @Module({
+  controllers: [PlanningController],
   providers: [PlanningService],
-  controllers: [PlanningController]
 })
 export class PlanningModule {}
