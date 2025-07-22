@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Clients } from "../client/clients";
-import { Orderlines } from "../orderlines/orderlines";
+import { Orderline } from "../orderlines/orderlines";
 
 @Entity()
 export class Orderheads {
@@ -23,12 +23,12 @@ export class Orderheads {
     })
     clients: Clients
 
-    @OneToMany(() => Orderlines, (orderlines) => orderlines.orderhead)
+    @OneToMany(() => Orderline, (orderline) => orderline.orderhead)
     @JoinColumn({
         name: 'id',
         referencedColumnName: 'orderhead_id'
     })
-    orderlines: Orderlines[]
+    orderline: Orderline[]
 
 
 

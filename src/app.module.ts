@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AppDataSource } from './database/config/planning.connection';
-import { PlanningModule } from './module/planning/planning.module';
 import { PlanningModule } from './planning/planning.module';
 import typeorm from './database/config/planning.connection';
 

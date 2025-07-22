@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { CreatePlanningDto } from './dto/create-planning.dto';
 import { UpdatePlanningDto } from './dto/update-planning.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Orderlines } from 'src/entities/orderlines/orderlines';
+import { Orderline } from 'src/entities/orderlines/orderlines';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class PlanningService {
-  constructor(@InjectRepository(Orderlines) private readonly orderLineRepo: Repository<Orderlines>) { }
+  constructor(@InjectRepository(Orderline) private readonly orderLineRepo: Repository<Orderline>) { }
   create(createPlanningDto: CreatePlanningDto) {
     return 'This action adds a new planning';
   }
@@ -28,7 +28,7 @@ export class PlanningService {
     return `This action removes a #${id} planning`;
   }
 
-  async findShippedWithoutFactories() {
+  async findAllPanningNotAllocated() {
     return this.orderLineRepo
       .createQueryBuilder('ol')
       .innerJoinAndSelect('ol.orderHead', 'oh')

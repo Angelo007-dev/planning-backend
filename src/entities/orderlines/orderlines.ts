@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Orderheads } from "../orderhead/orderheads";
 
-@Entity('orderlines')
-export class Orderlines {
+@Entity('orderline')
+export class Orderline {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -29,7 +29,7 @@ export class Orderlines {
     })
     needle: number
 
-    @ManyToOne(() => Orderheads, (orederhead) => orederhead.orderlines)
+    @ManyToOne(() => Orderheads, (orederhead) => orederhead.orderline)
     @JoinColumn({
         name: 'orderhead_id',
         referencedColumnName: 'id'
