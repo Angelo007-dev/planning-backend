@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Query, Req } from '@nestjs/common';
 import { PlanningService } from './planning.service';
 import { CreatePlanningDto } from './dto/create-planning.dto';
-import { UpdatePlanningDto } from './dto/update-planning.dto';
-import { AssignFactoryDTO } from './dto/assignFactory.dto';
+import { QueryParamsDto } from 'src/database/dto/QueryParams.dto';
 
 @Controller('planning')
 export class PlanningController {
@@ -35,14 +34,14 @@ export class PlanningController {
 
   //get all planning not allocated
   @Get('/listNotAllocated')
-  getAllPlanningNotAllocated() {
-    return this.planningService.findAllPanningNotAllocated();
+  getAllPlanningNotAllocated(@Query() query: QueryParamsDto, @Req() req: Request) {
+    return this.planningService.findAllPanningNotAllocated(query, req);
   }
 
   //get all planning allocated
   @Get('/listAllocated')
-  getAllPlanningAllocated() {
-    return this.planningService.findAllPanningAllocated();
+  getAllPlanningAllocated(@Query() query: QueryParamsDto, @Req() req: Request) {
+    return this.planningService.findAllPanningAllocated(query, req);
   }
 
   @Patch('/:id/updateFactories')

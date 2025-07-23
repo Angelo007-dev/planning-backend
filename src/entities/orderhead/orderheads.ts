@@ -11,10 +11,20 @@ export class Orderheads {
     code: string
 
     @Column()
+    confirmate: Date
+
+    @Column()
     Yarncomp: string
 
     @Column()
     Yarncount: string
+
+    @Column()
+    yarn_eta: Date
+
+    @Column()
+    yarn_etd: Date
+
 
     @ManyToOne(() => Clients, (client) => client.orderhead)
     @JoinColumn({

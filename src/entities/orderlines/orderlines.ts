@@ -1,10 +1,16 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Orderheads } from "../orderhead/orderheads";
 
-@Entity('orderline')
+@Entity('orderlines')
 export class Orderline {
     @PrimaryGeneratedColumn()
     id: number
+
+    @Column()
+    shipment: string
+
+    @Column()
+    request: Date
 
     @Column()
     style_code: string
@@ -16,7 +22,10 @@ export class Orderline {
     status: string
 
     @Column()
-    quantity: number
+    quantity_to_be_shipped: number
+
+    @Column()
+    kpa: Date
 
     @Column({ type: 'varchar', nullable: true })
     factory1: string | null

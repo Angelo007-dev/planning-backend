@@ -4,7 +4,7 @@ import { Orderline } from "../../entities/orderlines/orderlines";
 import { Clients } from "../../entities/client/clients";
 import { Orderheads } from "../../entities/orderhead/orderheads";
 
-async function seed() {
+/*async function seed() {
     await AppDataSource.initialize();
 
     const orderHeadRepo = AppDataSource.getRepository(Orderheads);
@@ -39,7 +39,7 @@ async function seed() {
     const orderLine1 = orderLineRepo.create({
         style_code: 'ST001',
         style_description: 'T-shirt Homme',
-        status: 'allocated',
+        //status: 'allocated',
         quantity: 1000,
         factory1: 'Factory A',
         factory2: 'Factory B',
@@ -50,7 +50,7 @@ async function seed() {
     const orderLine2 = orderLineRepo.create({
         style_code: 'ST002',
         style_description: 'T-shirt Femme',
-        status: 'allocated',
+        //status: 'allocated',
         quantity: 200,
         factory1: 'Factory B',
         factory2: 'Factory C',
@@ -61,7 +61,7 @@ async function seed() {
     const orderLine3 = orderLineRepo.create({
         style_code: 'ST003',
         style_description: 'T-shirt Femme',
-        status: 'shipped',
+        //status: 'shipped',
         quantity: 200,
         factory1: 'Factory B',
         factory2: 'Factory C',
@@ -72,7 +72,7 @@ async function seed() {
     const orderLine4 = orderLineRepo.create({
         style_code: 'ST004',
         style_description: 'T-shirt Homme',
-        status: 'shipped',
+        //status: 'shipped',
         quantity: 200,
         factory1: 'Factory X',
         factory2: 'Factory Y',
@@ -91,4 +91,4 @@ async function seed() {
 
 seed().catch((err) => {
     console.error('❌ Seed échoué', err);
-});
+});*/

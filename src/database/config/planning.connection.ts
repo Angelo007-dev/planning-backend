@@ -15,7 +15,7 @@ const config = {
     password: String(process.env.DB_PASSWORD),
     database: process.env.DB_NAME,
     entities: [Orderheads, Orderline, Clients, Planning],
-    synchronize: true,
+    synchronize: false,
     migrationsRun: false,
     logging: true,
 }
