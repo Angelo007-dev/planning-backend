@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PlanningService } from './planning.service';
 import { CreatePlanningDto } from './dto/create-planning.dto';
 import { UpdatePlanningDto } from './dto/update-planning.dto';
+import { AssignFactoryDTO } from './dto/assignFactory.dto';
 
 @Controller('planning')
 export class PlanningController {
@@ -33,8 +34,19 @@ export class PlanningController {
   }*/
 
   //get all planning not allocated
-  @Get('listNotAllocated')
+  @Get('/listNotAllocated')
   getAllPlanningNotAllocated() {
     return this.planningService.findAllPanningNotAllocated();
+  }
+
+  //get all planning allocated
+  @Get('/listAllocated')
+  getAllPlanningAllocated() {
+    return this.planningService.findAllPanningAllocated();
+  }
+
+  @Post('assign-factories')
+  async assignFactoryToAnOrderLine(@Body() dto: AssignFactoryDTO) {
+    return this.planningService.assignFactories(dto);
   }
 }

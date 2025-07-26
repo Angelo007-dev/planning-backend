@@ -16,7 +16,7 @@ export class Orderheads {
     @Column()
     Yarncount: string
 
-    @ManyToOne(() => Clients, (client) => client.orederhead)
+    @ManyToOne(() => Clients, (client) => client.orderhead)
     @JoinColumn({
         name: 'client_id',
         referencedColumnName: 'id'
@@ -24,10 +24,6 @@ export class Orderheads {
     clients: Clients
 
     @OneToMany(() => Orderline, (orderline) => orderline.orderhead)
-    @JoinColumn({
-        name: 'id',
-        referencedColumnName: 'orderhead_id'
-    })
     orderline: Orderline[]
 
 

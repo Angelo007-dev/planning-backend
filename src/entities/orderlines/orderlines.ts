@@ -13,6 +13,9 @@ export class Orderline {
     style_description: string
 
     @Column()
+    status: string
+
+    @Column()
     quantity: number
 
     @Column()
@@ -25,9 +28,9 @@ export class Orderline {
     machine_type: string
 
     @Column({
-        name: 'gauge_code'
+        //name: 'gauge_code'
     })
-    needle: number
+    gauge_code: number
 
     @ManyToOne(() => Orderheads, (orederhead) => orederhead.orderline)
     @JoinColumn({
