@@ -45,8 +45,11 @@ export class PlanningController {
     return this.planningService.findAllPanningAllocated();
   }
 
-  @Post('assign-factories')
-  async assignFactoryToAnOrderLine(@Body() dto: AssignFactoryDTO) {
-    return this.planningService.assignFactories(dto);
+  @Patch('/:id/updateFactories')
+  updateFactories(
+    @Param('id') id: number,
+    @Body() body: { factory1: string | null, factory2: string | null }
+  ) {
+    return this.planningService.updateFactories(id, body.factory1, body.factory2);
   }
 }

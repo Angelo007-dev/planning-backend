@@ -18,11 +18,11 @@ export class Orderline {
     @Column()
     quantity: number
 
-    @Column()
-    factory1: string
+    @Column({ type: 'varchar', nullable: true })
+    factory1: string | null
 
-    @Column()
-    factory2: string
+    @Column({ type: 'varchar', nullable: true })
+    factory2: string | null
 
     @Column()
     machine_type: string

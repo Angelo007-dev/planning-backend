@@ -4,7 +4,7 @@ import { UpdatePlanningDto } from './dto/update-planning.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Orderline } from 'entities/orderlines/orderlines';
 import { Repository } from 'typeorm';
-import {AssignFactoryDTO } from './dto/assignFactory.dto';
+import { AssignFactoryDTO } from './dto/assignFactory.dto';
 
 @Injectable()
 export class PlanningService {
@@ -34,11 +34,11 @@ export class PlanningService {
       .createQueryBuilder('ol')
       .innerJoinAndSelect('ol.orderhead', 'oh')
       .innerJoinAndSelect('oh.clients', 'c')
-      .where('ol.status = :status', { status: 'allocated' })//status not shipped , just for test if the api work
-      .andWhere('ol.factory1 IS NULL')
-      .andWhere('ol.factory2 IS NULL')
+      //.where('ol.status != :status', { status: 'Allocated' })//status not shipped , just for test if the api work
+      .where(`ol.factory1  IS NULL OR ol.factory1 = '' AND ol.factory2 IS NULL OR ol.factory2 = ''`)
       .orderBy('ol.id', 'ASC')
       .select([
+        'ol.id',
         'c.name',
         //'oh.order_id',
         //'ol.code',
@@ -65,6 +65,33 @@ export class PlanningService {
   }
 
   async findAllPanningAllocated() {
+    return this.orderLineRepo
+      .createQueryBuilder('ol')
+      .innerJoinAndSelect('ol.orderhead', 'oh')
+      .innerJoinAndSelect('oh.clients', 'c')
+      /**{ statuses: ['Allocated', 'Partly Allocated'] } it's an object parameter injecting by typeORM in the request*/
+      .where('ol.status IN (:...statuses)', { statuses: ['Allocated', 'Partly Allocated'] }) //using parameter value ...statues
+      //.where('ol.status ')
+      .andWhere('(ol.factory1 IS NOT NULL OR ol.factory2 IS NOT NULL)')
+      .orderBy('ol.id', 'ASC')
+      .select([
+        'ol.id',
+        'c.name',
+        'oh.code',
+        'ol.style_description',
+        'ol.status',
+        'ol.quantity',
+        'oh.Yarncomp',
+        'ol.style_code',
+        'ol.gauge_code',
+        'ol.machine_type',
+        'ol.factory1',
+        'ol.factory2',
+      ])
+      .getRawMany();
+  }
+
+  /*async findAllPanningAllocated() {
     return this.orderLineRepo
       .createQueryBuilder('ol')
       .innerJoinAndSelect('ol.orderhead', 'oh')
@@ -96,28 +123,30 @@ export class PlanningService {
         'ol.factory1',
         'ol.factory2',
       ])
-      .getRawMany();
-  }
+      .getRawMany();*/
 
-  async assignFactories(dto: AssignFactoryDTO) {
-    const { orderlinedId, factory1, factory2 } = dto;
+  async updateFactories(id: number, factory1: string | null, factory2: string | null): Promise<Orderline> {
+    const orderline = await this.orderLineRepo.findOne({ where: { id } });
 
-    const orderline = await this.orderLineRepo.findOneBy({ id: orderlinedId });
     if (!orderline) {
-      throw new NotFoundException(`Orderline with id ${orderlinedId} not found`);
-    }
-    orderline.factory1 = factory1;
-    if (factory2) {
-      orderline.factory2 = factory2;
+      throw new NotFoundException(`Orderline with ID ${id} not found`);
     }
 
-    return this.orderLineRepo.save(orderline);
+    // update des factories
+    orderline.factory1 = factory1;
+    orderline.factory2 = factory2;
+
+    // status logics
+    if (factory1 && factory2) {
+      orderline.status = 'Allocated';
+    } else if (factory1 || factory2) {
+      orderline.status = 'Partly Allocated';
+    } else {
+      orderline.status = 'Not Allocated';
+    }
+
+    return await this.orderLineRepo.save(orderline);
   }
+
 
 }
-
-
-/*.createQueryBuilder('ol')
-      .innerJoinAndSelect('ol.orderhead', 'oh')  // jointure Orderhead
-      .innerJoinAndSelect('oh.clients', 'c')     // jointure Clients via Orderhead
-      .getMany();*/
