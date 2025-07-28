@@ -34,7 +34,7 @@ export class PlanningService {
     const qb = this.orderLineRepo.createQueryBuilder('ol');
     qb.innerJoinAndSelect('ol.orderhead', 'oh');
     qb.innerJoinAndSelect('oh.clients', 'c');
-    qb.andWhere(`ol.factory1  IS NULL OR ol.factory1 = '' AND ol.factory2 IS NULL OR ol.factory2 = ''`);
+    qb.andWhere(`(ol.factory1  IS NULL OR ol.factory1 = '' ) AND (ol.factory2 IS NULL OR ol.factory2 = '')`);
 
     if (query.search) {
       qb.andWhere('oh.code like  :global_search ', {
@@ -157,13 +157,13 @@ export class PlanningService {
     orderline.factory2 = factory2;
 
     // status logics
-    /*if (factory1 && factory2) {
+    if (factory1 && factory2) {
       orderline.status = 'Allocated';
     } else if (factory1 || factory2) {
       orderline.status = 'Partly Allocated';
     } else {
       orderline.status = 'Not Allocated';
-    }*/
+    }
 
     return await this.orderLineRepo.save(orderline);
   }

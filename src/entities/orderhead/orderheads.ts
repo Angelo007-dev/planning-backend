@@ -8,21 +8,24 @@ export class Orderheads {
     id: number
 
     @Column()
+    order_id: string
+
+    @Column()
     code: string
 
-    @Column()
-    confirmate: Date
+    @Column({ type: 'date', nullable: true })
+    confirmDate: Date
 
-    @Column()
+    @Column({ type: 'varchar', nullable: true })
     Yarncomp: string
 
-    @Column()
+    @Column({ type: 'varchar', nullable: true })
     Yarncount: string
 
-    @Column()
+    @Column({ type: 'date', nullable: true })
     yarn_eta: Date
 
-    @Column()
+    @Column({ type: 'date', nullable: true })
     yarn_etd: Date
 
 
@@ -35,20 +38,4 @@ export class Orderheads {
 
     @OneToMany(() => Orderline, (orderline) => orderline.orderhead)
     orderline: Orderline[]
-
-
-
-    /*@ManyToOne(() => ClientsEntity, (clients) => clients.id)
-    @JoinColumn({
-        name: 'client_id',
-        referencedColumnName: 'id'
-    })
-    client: ClientsEntity
-
-    @OneToMany(() => OrderlinesEntity, (orderlines) => orderlines.orderhead)
-    @JoinColumn({
-        name: 'id',
-        referencedColumnName: 'orderhead_id'
-    })
-    orderlines: OrderlinesEntity*/
 }

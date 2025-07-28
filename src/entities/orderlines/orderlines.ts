@@ -12,7 +12,7 @@ export class Orderline {
     @Column()
     request: Date
 
-    @Column()
+    @Column({ type: 'varchar', nullable: true })
     style_code: string
 
     @Column()
@@ -24,7 +24,7 @@ export class Orderline {
     @Column()
     quantity_to_be_shipped: number
 
-    @Column()
+    @Column({ type: 'datetime', nullable: true })
     kpa: Date
 
     @Column({ type: 'varchar', nullable: true })
@@ -38,6 +38,7 @@ export class Orderline {
 
     @Column({
         //name: 'gauge_code'
+        type: 'varchar', nullable: true
     })
     gauge_code: number
 
