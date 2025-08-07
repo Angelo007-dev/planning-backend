@@ -1,0 +1,28 @@
+
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Orderheads } from "./orderhead/orderheads";
+
+@Entity('merchandisers')
+export class Merchandiser {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column()
+    code: string;
+
+    @Column()
+    description: string;
+
+    /*@Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createda_at: Date;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    updated_at: Date;*/
+
+    @Column({ type: 'boolean', default: true })
+    active: boolean;
+
+    @OneToMany(() => Orderheads, (orderhead) => orderhead.merchandiser)
+    orderhead: Orderheads[];
+
+}
