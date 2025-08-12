@@ -3,6 +3,7 @@ import { Clients } from "../client/clients";
 import { Orderline } from "../orderlines/orderlines";
 import { Shipments } from "../shipment_advice.entity";
 import { Merchandiser } from "../merchandiser.entity";
+import { Currencies } from "../currencies.entity";
 
 @Entity()
 export class Orderheads {
@@ -54,34 +55,10 @@ export class Orderheads {
     @OneToMany(() => Orderline, (orderline) => orderline.orderhead)
     orderline: Orderline[]
 
-
-    /* @ManyToMany(() => Shipments)
-     @JoinTable({
-         name: 'shipments',
-         joinColumn: {
-             name: 'orderhead_id',
-             referencedColumnName: 'id'
-         }, inverseJoinColumn: {
-             name: 'shipment_code',
-             referencedColumnName: 'shipment_code'
-         }
-     })
-     shipments: Shipments[]*/
-
-    /*@OneToMany(() => Shipements, (shipments) => shipments.orderheads)
-    shipments: Shipements[]*/
-
-    /*@ManyToOne(() => ClientsEntity, (clients) => clients.id)
+    @ManyToOne(() => Currencies, (currency) => currency.orderhead)
     @JoinColumn({
-        name: 'client_id',
-        referencedColumnName: 'id'
+        name: 'currency_id',
+        referencedColumnName: 'code'
     })
-    client: ClientsEntity
-
-    @OneToMany(() => OrderlinesEntity, (orderlines) => orderlines.orderhead)
-    @JoinColumn({
-        name: 'id',
-        referencedColumnName: 'orderhead_id'
-    })
-    orderlines: OrderlinesEntity*/
+    currencies: Currencies
 }

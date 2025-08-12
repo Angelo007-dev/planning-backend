@@ -12,6 +12,7 @@ import { Merchandiser } from 'src/entities/merchandiser.entity';
 import { ShipementsTable } from 'src/entities/shipments.entity';
 import { BankDetails } from 'src/entities/bank-details.entity';
 import { Destinations } from 'src/entities/destination.entity';
+import { Currencies } from 'src/entities/currencies.entity';
 
 dotenv.config();
 const config = {
@@ -21,7 +22,20 @@ const config = {
     username: String(process.env.DB_USERNAME),
     password: String(process.env.DB_PASSWORD),
     database: process.env.DB_NAME,
-    entities: [Orderheads, Orderline, Clients, PaymentTerm, Contact, Country, Shipments, Merchandiser, ShipementsTable, BankDetails, Destinations],
+    entities: [
+        Orderheads,
+        Orderline,
+        Clients,
+        PaymentTerm,
+        Contact,
+        Country,
+        Shipments,
+        Merchandiser,
+        ShipementsTable,
+        BankDetails,
+        Destinations,
+        Currencies
+    ],
     synchronize: false,
     migrationsRun: false,
     logging: true,

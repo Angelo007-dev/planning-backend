@@ -33,25 +33,21 @@ export class ShipmentInvoiceController {
         return this.shipmentService.findAllOrderheadByOrderline(id);
     }
 
-    //create shipment for an oreder
-    /*@Patch('orderlines/:id/shipment')
-    updateOrderLineShipment(
-        @Param('id', ParseIntPipe) id: number,
-        @Body() dto: CreateShipmentDTO
-    ) {
-        return this.shipmentService.createShipment(id, dto);
-    }*/
+    @Get('/getBankLinked/OrderCurrency/:id')
+    getBankLinkedOnOrderCurrency(
+        @Param('id') id: number) {
+        return this.shipmentService.findBankLinkedOnOrderCurrency(id);
+    }
+
+    @Get('/get/Client/Destination/:id')
+    getClienDestination(
+        @Param('id') id: number) {
+        return this.shipmentService.findClientDestination(id);
+    }
 
     //create shipment for an oreder
     @Post('/create')
     create(@Body() dto: CreateShipmentDTO) /*:Promise<Shipments>*/ {
         return this.shipmentService.create(dto);
     }
-    /*@Post('/shipment/create')
-    createShipment(
-        @Param('id', ParseIntPipe) id: number,
-        @Body() dto: CreateShipmentDTO
-    ) {
-        return this.shipmentService.createShipment(id, dto);
-    }*/
 }

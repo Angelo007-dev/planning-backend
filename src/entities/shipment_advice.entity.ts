@@ -44,7 +44,7 @@ export class Shipments {
     })
     @JoinColumn({
         name: 'destination',
-        referencedColumnName: 'id'
+        //referencedColumnName: 'id'
     })
     destination: Destinations;
 

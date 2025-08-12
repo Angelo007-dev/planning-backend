@@ -12,8 +12,21 @@ import { Merchandiser } from 'src/entities/merchandiser.entity';
 import { ShipementsTable } from 'src/entities/shipments.entity';
 import { BankDetails } from 'src/entities/bank-details.entity';
 import { Destinations } from 'src/entities/destination.entity';
+import { Currencies } from 'src/entities/currencies.entity';
 @Module({
-    imports: [TypeOrmModule.forFeature([Orderline, Orderheads, Clients, Shipments, Contact, PaymentTerm, Merchandiser, ShipementsTable, BankDetails, Destinations])],
+    imports: [TypeOrmModule.forFeature([
+        Orderline,
+        Orderheads,
+        Clients,
+        Shipments,
+        Contact,
+        PaymentTerm,
+        Merchandiser,
+        ShipementsTable,
+        BankDetails,
+        Destinations, 
+        Currencies
+    ])],
     providers: [ShipmentInvoiceService],
     controllers: [ShipmentInvoiceController]
 })

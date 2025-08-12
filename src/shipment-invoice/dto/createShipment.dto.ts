@@ -28,7 +28,7 @@ export class CreateShipmentDTO {
     customer_invoice?: boolean;
 
     /*@IsOptional()
-    //@IsInt()
+    @IsInt()
     orderline_ids: number[];*/
     orderlines: {
         id: number;
@@ -39,11 +39,15 @@ export class CreateShipmentDTO {
     @IsOptional()
     @IsInt()
     bank_details_id?: number;
+    /*
+        @IsOptional()
+        @IsString()
+        destination?: string;
+    */
 
     @IsOptional()
     @IsInt()
-    destination_id?: number;
-
+    destination?: number;
 
     @IsOptional()
     @IsDate()

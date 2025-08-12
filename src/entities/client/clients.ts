@@ -62,4 +62,7 @@ export class Clients {
     @OneToMany(() => Contact, (contact) => contact.client)
     contacts: Contact[];
 
+    @OneToMany(() => Destinations, (destination) => destination.client)
+    destinations: Destinations[];
+
 }
