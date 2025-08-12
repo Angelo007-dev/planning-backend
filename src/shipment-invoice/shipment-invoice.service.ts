@@ -11,6 +11,7 @@ import { last } from 'rxjs';
 import { BankDetails } from 'src/entities/bank-details.entity';
 import { Destinations } from 'src/entities/destination.entity';
 import { Clients } from 'src/entities/client/clients';
+import { CreateInvoiceDTO } from './dto/createInvoice.dto';
 
 @Injectable()
 export class ShipmentInvoiceService {
@@ -248,6 +249,28 @@ export class ShipmentInvoiceService {
         return {
             shipmentTable,
         };
+    }
+
+    async createInvoice(createInvoice: CreateInvoiceDTO): Promise<Shipments> {
+        const client = createInvoice.clientId ? await this.clientRepo.findOne({ where: { id: createInvoice.clientId } }) : null;
+        const destination = createInvoice.destinationId ? await this.destinationRepo.findOne({ where: { id: createInvoice.destinationId } }) : null;
+        const bankDetails = createInvoice.bank_detailsId ? await this.bankDetailsRepo.findOne({ where: { id: createInvoice.bank_detailsId } }) : null;
+
+        const shipmentEntity = this.shipmentRepo.create({
+            ...createInvoice,
+            //client,
+            //destination,
+            // bank_details: bankDetails,
+        });
+
+        const savedInvoice = await this.shipmentRepo.save(shipmentEntity);
+
+        ///await this.generatedInvoicePdf(savedInvoice);
+        return savedInvoice;
+    }
+
+    async generatedInvoicePdf(invoice: Shipments): Promise<void> {
+
     }
 
     //generate patteren for shipment_code

@@ -11,24 +11,133 @@ export class Shipments {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @ManyToOne(() => Clients)
+    client: Clients;
+
     @Column()
     shipment_code: string;
 
     @Column()
     invoice_type: string;
 
+    @Column({ nullable: true })
+    to_address: string;
+
+    @Column({ nullable: true })
+    flex_conCtract_number: string;
+
+
+    @Column({ nullable: true })
+    invoice_date?: Date;
+
+    @Column({ nullable: true })
+    invoice_number?: number;
+
+    @Column({ nullable: true })
+    invoice_amount: number;
+
+    @Column({ nullable: true })
+    customer_order_number: string;
+
+    @Column({ nullable: true })
+    carton: number;
+
+    @Column({ nullable: true })
+    gw?: number;
+
+    @Column({ nullable: true })
+    nw?: number;
+
+    @Column({ nullable: true })
+    cbm?: number;
+
+    @Column({ nullable: true })
+    name_forwarder?: string;
+
+    @Column({ nullable: true })
+    tracking_number?: number;
+
+    @Column({ nullable: true })
+    freight?: string;
+
+    @Column({ nullable: true })
+    eta_date?: Date;
+
+    @Column({ nullable: true })
+    comment?: string;
+
+    @Column({ nullable: true })
+    name_vessel?: string;
+
+    @Column({ nullable: true })
+    voyage_number?: string;
+
+    @Column({ nullable: true })
+    shipment_mode?: string;
+
+    @Column({ nullable: true })
+    mbl?: string;
+
+    @Column({ nullable: true })
+    hbl?: string;
+
+    @Column({ nullable: true })
+    fligth_number?: string;
+
+    @Column({ nullable: true })
+    flight_from?: string;
+
+    @Column({ nullable: true })
+    flight_date?: Date;
+
+    @Column({ nullable: true })
+    mawb1?: string;
+
+    @Column({ nullable: true })
+    mawb2?: string;
+
+    @Column({ nullable: true })
+    mawb3?: string;
+
+    @Column({ nullable: true })
+    hawb?: string;
+
+    @Column({ nullable: true })
+    currerncy_code?: string;
+
     @Column()
     incoterms: string;
 
-    @Column()
+    @Column({
+        type: 'decimal',
+        nullable: true,
+        precision: 8,
+        scale: 2
+    })
+    volume?: number;
+
+    @Column({ nullable: true })
+    reference?: string;
+
+    @Column({ nullable: true })
+    other_costs_ship?: string;
+
+    @Column({ nullable: true })
+    other_costs_aire?: string;
+
+    @Column({ nullable: true })
+    freight_charges_air?: string;
+
+    @Column({ nullable: true })
+    freight_charges_ship?: string;
+
+
+    @Column({
+        type: 'decimal',
+        precision: 8,
+        scale: 2,
+    })
     deposit: number;
-
-
-    @Column()
-    additional_text: boolean;
-
-    @Column()
-    customer_invoice: boolean;
 
     @ManyToOne(() => BankDetails, (bank_details) => bank_details.shipment_advice, {
         nullable: true,
@@ -39,6 +148,21 @@ export class Shipments {
     })
     bank_details: BankDetails;
 
+    @Column({ nullable: true })
+    po_no: number;
+
+    @Column({ nullable: true })
+    brand_name: string;
+
+    @Column({ nullable: true })
+    shipment_from: string;
+
+    @Column({ nullable: true })
+    shipment_tc1: string;
+
+    @Column({ nullable: true })
+    carrier: string;
+
     @ManyToOne(() => Destinations, (destination) => destination.shipment_advice, {
         nullable: true,
     })
@@ -47,6 +171,18 @@ export class Shipments {
         //referencedColumnName: 'id'
     })
     destination: Destinations;
+
+    @Column({ nullable: true })
+    dom_nr: string;
+
+    @Column({ nullable: true })
+    extra_text: string;
+
+    @Column({
+        type: 'boolean',
+        default: false,
+    })
+    customer_invoice: boolean;
 
     @ManyToMany(() => Orderheads)
     @JoinTable({

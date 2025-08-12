@@ -4,6 +4,7 @@ import { ShipmentInvoiceService } from './shipment-invoice.service';
 import { CreateShipmentDTO } from './dto/createShipment.dto';
 import { Request } from 'express';
 import { Shipments } from 'src/entities/shipment_advice.entity';
+import { CreateInvoiceDTO } from './dto/createInvoice.dto';
 
 @Controller('shipment-invoice')
 export class ShipmentInvoiceController {
@@ -49,5 +50,11 @@ export class ShipmentInvoiceController {
     @Post('/create')
     create(@Body() dto: CreateShipmentDTO) /*:Promise<Shipments>*/ {
         return this.shipmentService.create(dto);
+    }
+
+    //createInvoice
+    @Post('/create/invoices')
+    createInvoice(@Body() dto: CreateInvoiceDTO)/**:Promise<Shipments> */ {
+        return this.shipmentService.createInvoice(dto);
     }
 }
