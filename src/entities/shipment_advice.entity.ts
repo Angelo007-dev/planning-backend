@@ -12,6 +12,11 @@ export class Shipments {
     id: number;
 
     @ManyToOne(() => Clients)
+    @JoinColumn({
+        name: 'client_id',
+        referencedColumnName: 'id'
+    })
+
     client: Clients;
 
     @Column()
@@ -24,7 +29,7 @@ export class Shipments {
     to_address: string;
 
     @Column({ nullable: true })
-    flex_conCtract_number: string;
+    flex_contract_number: string;
 
 
     @Column({ nullable: true })
@@ -40,7 +45,7 @@ export class Shipments {
     customer_order_number: string;
 
     @Column({ nullable: true })
-    carton: number;
+    carton_id: number;
 
     @Column({ nullable: true })
     gw?: number;
@@ -82,7 +87,7 @@ export class Shipments {
     hbl?: string;
 
     @Column({ nullable: true })
-    fligth_number?: string;
+    flight_number?: string;
 
     @Column({ nullable: true })
     flight_from?: string;
@@ -103,7 +108,7 @@ export class Shipments {
     hawb?: string;
 
     @Column({ nullable: true })
-    currerncy_code?: string;
+    currency_code?: string;
 
     @Column()
     incoterms: string;
@@ -123,7 +128,7 @@ export class Shipments {
     other_costs_ship?: string;
 
     @Column({ nullable: true })
-    other_costs_aire?: string;
+    other_costs_air?: string;
 
     @Column({ nullable: true })
     freight_charges_air?: string;
@@ -139,9 +144,7 @@ export class Shipments {
     })
     deposit: number;
 
-    @ManyToOne(() => BankDetails, (bank_details) => bank_details.shipment_advice, {
-        nullable: true,
-    })
+    @ManyToOne(() => BankDetails, (bank_details) => bank_details.shipment_advice)
     @JoinColumn({
         name: 'bank_details',
         referencedColumnName: 'id'
@@ -175,8 +178,8 @@ export class Shipments {
     @Column({ nullable: true })
     dom_nr: string;
 
-    @Column({ nullable: true })
-    extra_text: string;
+    @Column({ nullable: true, default: false })
+    extra_text: boolean;
 
     @Column({
         type: 'boolean',

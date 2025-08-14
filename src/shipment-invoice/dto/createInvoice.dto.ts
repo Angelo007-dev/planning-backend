@@ -12,7 +12,7 @@ import { Type } from 'class-transformer';
 export class CreateInvoiceDTO {
     @IsInt()
     @IsOptional()
-    clientId?: number;
+    client_id?: number;
 
     @IsString()
     shipment_code: string;
@@ -26,7 +26,7 @@ export class CreateInvoiceDTO {
 
     @IsString()
     @IsOptional()
-    flex_conCtract_number?: string;
+    flex_contract_number?: string;
 
     @IsDate()
     @IsOptional()
@@ -47,7 +47,7 @@ export class CreateInvoiceDTO {
 
     @IsInt()
     @IsOptional()
-    carton?: number;
+    carton_id?: number;
 
     @IsNumber()
     @IsOptional()
@@ -133,7 +133,7 @@ export class CreateInvoiceDTO {
 
     @IsString()
     @IsOptional()
-    currerncy_code?: string;
+    currency_code?: string;
 
     @IsString()
     incoterms: string;
@@ -152,7 +152,7 @@ export class CreateInvoiceDTO {
 
     @IsString()
     @IsOptional()
-    other_costs_aire?: string;
+    other_costs_air?: string;
 
     @IsString()
     @IsOptional()
@@ -197,9 +197,9 @@ export class CreateInvoiceDTO {
     @IsOptional()
     dom_nr?: string;
 
-    @IsString()
+    @IsBoolean()
     @IsOptional()
-    extra_text?: string;
+    extra_text?: boolean;
 
     @IsBoolean()
     @IsOptional()

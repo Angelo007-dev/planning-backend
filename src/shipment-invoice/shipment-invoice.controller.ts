@@ -46,6 +46,11 @@ export class ShipmentInvoiceController {
         return this.shipmentService.findClientDestination(id);
     }
 
+    @Post('/common-client')
+    getClientOrederhead(@Body() body: { orderheadIds: number[] }) {
+        return this.shipmentService.findCommonClient(body.orderheadIds);
+    }
+
     //create shipment for an oreder
     @Post('/create')
     create(@Body() dto: CreateShipmentDTO) /*:Promise<Shipments>*/ {

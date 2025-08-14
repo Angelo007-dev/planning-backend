@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryParamsDto } from 'src/database/dto/QueryParams.dto';
 import { Orderheads } from 'src/entities/orderhead/orderheads';
 import { Orderline } from 'src/entities/orderlines/orderlines';
-import { DataSource, In, Repository } from 'typeorm';
+import { DataSource, DeepPartial, In, Repository } from 'typeorm';
 import { CreateShipmentDTO } from './dto/createShipment.dto';
 import { Shipments } from 'src/entities/shipment_advice.entity';
 import { ShipementsTable } from 'src/entities/shipments.entity';
@@ -153,6 +153,41 @@ export class ShipmentInvoiceService {
         return destinations;
     }
 
+    async findInvoiceWithRelations(invoiceId: number): Promise<Shipments> {
+        const invoice = await this.shipmentRepo.findOne({
+            where: { id: invoiceId },
+            relations: ['client', 'bank_details', 'destination'],
+        });
+
+        if (!invoice) {
+            throw new NotFoundException(`Invoice with ID ${invoiceId} not found`);
+        }
+
+        return invoice;
+    }
+
+    async findCommonClient(orderheadIds: number[]): Promise<Clients> {
+        if (!Array.isArray(orderheadIds) || orderheadIds.length === 0) {
+            throw new BadRequestException('orderheadIds must be a non-empty array');
+        }
+
+        const orderheads = await this.orderheadRepo.find({
+            where: { id: In(orderheadIds) },
+            relations: ['clients']
+        });
+        if (!orderheads.length) {
+            throw new NotFoundException(`No orderheads founds for IDs ${orderheadIds.join(', ')}`);
+        }
+        const firstClient = orderheads[0].clients;
+
+        const allSameClient = orderheads.every(
+            (oh) => oh.clients.id === firstClient.id,
+        );
+        if (!allSameClient)
+            throw new NotFoundException(`Not the same client`);
+        return firstClient;
+    }
+
     async create(createDto: CreateShipmentDTO) {
         const {
             //shipment_code,
@@ -252,18 +287,18 @@ export class ShipmentInvoiceService {
     }
 
     async createInvoice(createInvoice: CreateInvoiceDTO): Promise<Shipments> {
-        const client = createInvoice.clientId ? await this.clientRepo.findOne({ where: { id: createInvoice.clientId } }) : null;
-        const destination = createInvoice.destinationId ? await this.destinationRepo.findOne({ where: { id: createInvoice.destinationId } }) : null;
-        const bankDetails = createInvoice.bank_detailsId ? await this.bankDetailsRepo.findOne({ where: { id: createInvoice.bank_detailsId } }) : null;
+        //const client = createInvoice.clientId ? await this.clientRepo.findOne({ where: { id: createInvoice.clientId } }) : null;
+        //const destination = createInvoice.destinationId ? await this.destinationRepo.findOne({ where: { id: createInvoice.destinationId } }) : null;
+        //const bankDetails = createInvoice.bank_detailsId ? await this.bankDetailsRepo.findOne({ where: { id: createInvoice.bank_detailsId } }) : null;
 
-        const shipmentEntity = this.shipmentRepo.create({
+        const shipmentEntity: DeepPartial<Shipments> = {
             ...createInvoice,
-            //client,
-            //destination,
-            // bank_details: bankDetails,
-        });
+            bank_details: createInvoice.bank_detailsId ? { id: createInvoice.bank_detailsId } : undefined,
+            client: createInvoice.client_id ? { id: createInvoice.client_id } : undefined,
+            destination: createInvoice.destinationId ? { id: createInvoice.destinationId } : undefined,
+        };
 
-        const savedInvoice = await this.shipmentRepo.save(shipmentEntity);
+        const savedInvoice = await this.shipmentRepo.create(shipmentEntity);
 
         ///await this.generatedInvoicePdf(savedInvoice);
         return savedInvoice;

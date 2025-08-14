@@ -7,6 +7,9 @@ export class Orderline {
     @PrimaryGeneratedColumn()
     id: number
 
+    @Column()
+    order_id: string;
+
     @Column('decimal', { precision: 10, scale: 2 })
     price: number
 

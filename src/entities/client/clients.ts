@@ -4,6 +4,7 @@ import { PaymentTerm } from "../payment-term.entity";
 import { Country } from "../country.entity";
 import { Contact } from "../contact.entity";
 import { Destinations } from "../destination.entity";
+import { Shipments } from "../shipment_advice.entity";
 
 
 @Entity()
@@ -64,5 +65,8 @@ export class Clients {
 
     @OneToMany(() => Destinations, (destination) => destination.client)
     destinations: Destinations[];
+
+    @OneToMany(() => Shipments, (shipment) => shipment.client)
+    shipments: Shipments[]
 
 }
