@@ -1,0 +1,35 @@
+[33mcommit 0ca0c8b832f21875b0df113d86452d4fd770f0dd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mshipment-backend[m[33m, [m[1;31morigin/shipment-backend[m[33m)[m
+Author: unknown <usr@DEV-MARIO.flexknit.lan>
+Date:   Thu Aug 14 17:12:16 2025 +0300
+
+    feat: update entities
+
+[33mcommit 4532cee9c350d76a9725fdfb66fb3297143953a1[m
+Author: unknown <usr@DEV-MARIO.flexknit.lan>
+Date:   Tue Aug 12 17:01:09 2025 +0300
+
+    feat:create invoice
+
+[33mcommit cc3eec2ab24077bf12718be188716db5eb28e2fd[m
+Author: unknown <usr@DEV-MARIO.flexknit.lan>
+Date:   Tue Aug 12 15:27:19 2025 +0300
+
+    feat: invoiceDTO
+
+[33mcommit ca4c3717111b12d7b1c786e776b3cffee7c32ce8[m
+Author: unknown <usr@DEV-MARIO.flexknit.lan>
+Date:   Tue Aug 12 14:47:24 2025 +0300
+
+    setup creaete invoice front
+
+[33mcommit 16afc98589377b71e827b2c8d8e8fa00211ddbfe[m
+Author: unknown <usr@DEV-MARIO.flexknit.lan>
+Date:   Thu Aug 7 09:35:11 2025 +0300
+
+    first commit
+
+[33mcommit a750c930aad13e9edbfd94f1af15db3478090240[m
+Author: unknown <usr@DEV-MARIO.flexknit.lan>
+Date:   Mon Jul 28 15:35:32 2025 +0300
+
+    first commit

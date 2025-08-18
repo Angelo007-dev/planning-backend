@@ -13,6 +13,9 @@ import { ShipementsTable } from 'src/entities/shipments.entity';
 import { BankDetails } from 'src/entities/bank-details.entity';
 import { Destinations } from 'src/entities/destination.entity';
 import { Currencies } from 'src/entities/currencies.entity';
+import { CmtInvoices } from 'src/entities/cmt-invoices.entity';
+import { CmtInvoiceService } from './cmt-invoice.service';
+import { CmtInvoiceController } from './cmt-invoice.controller';
 @Module({
     imports: [TypeOrmModule.forFeature([
         Orderline,
@@ -24,10 +27,11 @@ import { Currencies } from 'src/entities/currencies.entity';
         Merchandiser,
         ShipementsTable,
         BankDetails,
-        Destinations, 
-        Currencies
+        Destinations,
+        Currencies,
+        CmtInvoices
     ])],
-    providers: [ShipmentInvoiceService],
-    controllers: [ShipmentInvoiceController]
+    providers: [ShipmentInvoiceService, CmtInvoiceService],
+    controllers: [ShipmentInvoiceController, CmtInvoiceController]
 })
 export class ShipmentInvoiceModule { }

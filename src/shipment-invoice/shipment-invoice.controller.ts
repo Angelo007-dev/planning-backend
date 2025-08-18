@@ -57,7 +57,7 @@ export class ShipmentInvoiceController {
         return this.shipmentService.create(dto);
     }
 
-    //createInvoice
+    //createInvoice for an order
     @Post('/create/invoices')
     createInvoice(@Body() dto: CreateInvoiceDTO)/**:Promise<Shipments> */ {
         return this.shipmentService.createInvoice(dto);

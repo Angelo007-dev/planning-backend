@@ -13,6 +13,7 @@ import { ShipementsTable } from 'src/entities/shipments.entity';
 import { BankDetails } from 'src/entities/bank-details.entity';
 import { Destinations } from 'src/entities/destination.entity';
 import { Currencies } from 'src/entities/currencies.entity';
+import { CmtInvoices } from 'src/entities/cmt-invoices.entity';
 
 dotenv.config();
 const config = {
@@ -34,7 +35,8 @@ const config = {
         ShipementsTable,
         BankDetails,
         Destinations,
-        Currencies
+        Currencies,
+        CmtInvoices,
     ],
     synchronize: false,
     migrationsRun: false,
