@@ -13,6 +13,8 @@ import { Destinations } from 'src/entities/destination.entity';
 import { Clients } from 'src/entities/client/clients';
 import { CreateCmtInvoicesDTO } from './dto/create-cmt-invoice.dto';
 import { CmtInvoices } from 'src/entities/cmt-invoices.entity';
+import { CreateCmtInvoiceLineDTO } from './dto/create-cmt-invoice-line.dto';
+import { CmtInvoiceLine } from 'src/entities/cmt-invoice-line.entity';
 //import { CreateInvoiceDTO } from './dto/createInvoice.dto';
 
 @Injectable()
@@ -27,8 +29,8 @@ export class CmtInvoiceService {
         @InjectRepository(CmtInvoices)
         private readonly cmtInvoiceRepo: Repository<CmtInvoices>,
 
-        @InjectRepository(ShipementsTable)
-        private readonly shipmentTableRepo: Repository<ShipementsTable>,
+        @InjectRepository(CmtInvoiceLine)
+        private readonly CmtInvoiceLineRepo: Repository<CmtInvoiceLine>,
 
         @InjectRepository(BankDetails)
         private readonly bankDetailsRepo: Repository<BankDetails>,
@@ -55,47 +57,91 @@ export class CmtInvoiceService {
         return savedInvoice;
     }
 
-    /* async createInvoice(createInvoice: CreateInvoiceDTO): Promise<Shipments> {
-         //const client = createInvoice.clientId ? await this.clientRepo.findOne({ where: { id: createInvoice.clientId } }) : null;
-         //const destination = createInvoice.destinationId ? await this.destinationRepo.findOne({ where: { id: createInvoice.destinationId } }) : null;
-         //const bankDetails = createInvoice.bank_detailsId ? await this.bankDetailsRepo.findOne({ where: { id: createInvoice.bank_detailsId } }) : null;
- 
-         const shipmentEntity: DeepPartial<Shipments> = {
-             ...createInvoice,
-             bank_details: createInvoice.bank_detailsId ? { id: createInvoice.bank_detailsId } : undefined,
-             client: createInvoice.client_id ? { id: createInvoice.client_id } : undefined,
-             destination: createInvoice.destinationId ? { id: createInvoice.destinationId } : undefined,
-         };
- 
-         const savedInvoice = await this.shipmentRepo.create(shipmentEntity);
- 
-         ///await this.generatedInvoicePdf(savedInvoice);
-         return savedInvoice;
-     }
- */
+    async create(createDto: CreateCmtInvoiceLineDTO) {
+        const {
+            //cmt_invoice_id,
+            orderlines,
+        } = createDto;
+
+        const orderheads: Orderheads[] = [];
+        const cmt_invoice_table: CmtInvoiceLine[] = [];
+
+
+
+        for (const ol of orderlines) {
+            const orderline = await this.orderLineRepo.findOne({
+                where: { id: ol.id },
+                relations: ['orderhead'],
+            });
+
+            if (!orderline) {
+                throw new NotFoundException(`OrderLine not found`);
+            }
+
+            // update
+            orderline.hs_code = ol.hs_code;
+            orderline.quantity_shipped += ol.quantity_to_ship;
+            orderline.status = 'Partly Shipped';
+
+            const orderhead = orderline.orderhead;
+            if (!orderhead) {
+                throw new NotFoundException(`OrderHead not found for OrderLine ID ${ol.id}`);
+            }
+
+            //check to avoid duplicate orderhead
+            if (!orderheads.some(o => o.id === orderhead.id)) {
+                orderheads.push(orderhead);
+            }
+
+            const tableRow = this.CmtInvoiceLineRepo.create({
+                //shipment_code: '',
+                orderhead_id: orderhead.id,
+                orderline_id: orderline.id,
+                shipped: ol.quantity_to_ship,
+                created_at: new Date(),
+                updated_at: new Date(),
+            });
+
+            cmt_invoice_table.push(tableRow);
+        }
+        //console.log('shipmentTable to save:', shipmentTable);
+        //await this.shipmentTableRepo.save(shipmentTable);
+
+        const generatedCmtInvoiceId = await this.generateCmtInvoiceId();
+
+        for (const row of cmt_invoice_table) {
+            row.cmt_invoice_id = generatedCmtInvoiceId;
+        }
+        // Save
+        console.log("cmt invoice to save:", cmt_invoice_table);
+        //await this.shipmentRepo.save(shipment);
+        //await this.shipmentTableRepo.save(shipmentTable);
+
+        return {
+            cmt_invoice_table,
+        };
+    }
     async generatedInvoicePdf(invoice: Shipments): Promise<void> {
 
     }
 
     //generate patteren for shipment_code
-    private async generateShipmentCode(): Promise<string> {
+    private async generateCmtInvoiceId(): Promise<number> {
         //get the lest shipment code 
-        const lastShipment = await this.shipmentTableRepo
-            .createQueryBuilder('shipment')
-            .where("shipment.shipment_code LIKE :prefix", { prefix: 'SHIP%' })
-            .orderBy('shipment.shipment_code', 'DESC')
+        const cmtInvoice = await this.CmtInvoiceLineRepo
+            .createQueryBuilder('cmt_invoice_line')
+            //.where("cmt_invoice_line.cmt_invoice_id LIKE :prefix", { prefix: 'SHIP%' })
+            .orderBy('cmt_invoice_line.cmt_invoice_id', 'DESC')
             .getOne();
 
         let nextNumber = 1;
-        if (lastShipment && lastShipment.shipment_code) {
+        if (cmtInvoice && cmtInvoice.cmt_invoice_id) {
             //extract the number part of the last shipment code
-            const lastCode = lastShipment.shipment_code.match(/(\d+)$/);
-            if (lastCode) {
-                nextNumber = parseInt(lastCode[0], 10) + 1;
-            }
+            // const lastCode = cmtInvoice.cmt_invoice_id.match(/(\d+)$/);
+            nextNumber = cmtInvoice.cmt_invoice_id + 1;
         }
-        const FormattedNumber = nextNumber.toString().padStart(6, '0');
-        return `SHIP${FormattedNumber}`;
+        //const FormattedNumber = nextNumber.toString().padStart(6, '0');
+        return nextNumber;
     }
 
 }

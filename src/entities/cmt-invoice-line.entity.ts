@@ -1,13 +1,13 @@
 
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('cmt_invoice_line')
+@Entity('cmt_invoice_lines')
 export class CmtInvoiceLine {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    cmt_invoice_id: string;
+    cmt_invoice_id: number;
 
     @Column()
     orderhead_id: number;

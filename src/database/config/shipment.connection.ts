@@ -14,6 +14,7 @@ import { BankDetails } from 'src/entities/bank-details.entity';
 import { Destinations } from 'src/entities/destination.entity';
 import { Currencies } from 'src/entities/currencies.entity';
 import { CmtInvoices } from 'src/entities/cmt-invoices.entity';
+import { CmtInvoiceLine } from 'src/entities/cmt-invoice-line.entity';
 
 dotenv.config();
 const config = {
@@ -37,6 +38,7 @@ const config = {
         Destinations,
         Currencies,
         CmtInvoices,
+        CmtInvoiceLine
     ],
     synchronize: false,
     migrationsRun: false,

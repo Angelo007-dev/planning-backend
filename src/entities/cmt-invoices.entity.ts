@@ -7,6 +7,7 @@ import { Orderheads } from "./orderhead/orderheads";
 export class CmtInvoices {
     @PrimaryGeneratedColumn()
     id: number;
+
     @Column()
     shipment_code: string;
 

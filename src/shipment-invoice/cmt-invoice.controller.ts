@@ -7,14 +7,23 @@ import { Shipments } from 'src/entities/shipment_advice.entity';
 import { CreateInvoiceDTO } from './dto/createInvoice.dto';
 import { CreateCmtInvoicesDTO } from './dto/create-cmt-invoice.dto';
 import { CmtInvoiceService } from './cmt-invoice.service';
+import { CreateCmtInvoiceLineDTO } from './dto/create-cmt-invoice-line.dto';
 
 @Controller('cmt-invoice')
 export class CmtInvoiceController {
     constructor(private readonly cmtIncoiceSercvice: CmtInvoiceService) { }
 
     //createCmtInvoice for an order
-    @Post('/create')
+    @Post('/create/invoice')
     createInvoice(@Body() dto: CreateCmtInvoicesDTO)/**:Promise<Shipments> */ {
         return this.cmtIncoiceSercvice.createCmtInvoice(dto);
     }
+
+    //create shipment for an oreder
+    @Post('/create')
+    create(@Body() dto: CreateCmtInvoiceLineDTO) /*:Promise<Shipments>*/ {
+        return this.cmtIncoiceSercvice.create(dto);
+    }
+
+
 }

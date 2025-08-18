@@ -16,6 +16,7 @@ import { Currencies } from 'src/entities/currencies.entity';
 import { CmtInvoices } from 'src/entities/cmt-invoices.entity';
 import { CmtInvoiceService } from './cmt-invoice.service';
 import { CmtInvoiceController } from './cmt-invoice.controller';
+import { CmtInvoiceLine } from 'src/entities/cmt-invoice-line.entity';
 @Module({
     imports: [TypeOrmModule.forFeature([
         Orderline,
@@ -29,7 +30,8 @@ import { CmtInvoiceController } from './cmt-invoice.controller';
         BankDetails,
         Destinations,
         Currencies,
-        CmtInvoices
+        CmtInvoices,
+        CmtInvoiceLine
     ])],
     providers: [ShipmentInvoiceService, CmtInvoiceService],
     controllers: [ShipmentInvoiceController, CmtInvoiceController]
