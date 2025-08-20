@@ -19,33 +19,53 @@ export class Shipments {
 
     client: Clients;
 
-    @Column()
-    shipment_code: string;
+    @Column({
+        unique: true,
+        name: 'shipment_code',
+    })
+    shipmentCode: string;
 
-    @Column()
-    invoice_type: string;
+    @Column({
+        name: 'invoice_type'
+    })
+    invoiceType: string;
 
-    @Column({ nullable: true })
-    to_address: string;
+    @Column({
+        name: 'to_address',
+        nullable: true
+    })
+    toAddress: string;
 
     @Column({ nullable: true })
     flex_contract_number: string;
 
 
-    @Column({ nullable: true })
-    invoice_date?: Date;
+    @Column({
+        name: 'invoice_date',
+        nullable: true
+    })
+    invoiceDate?: Date;
 
-    @Column({ nullable: true })
-    invoice_number?: number;
+    @Column({
+        name: 'invoice_number',
+        nullable: true
+    })
+    invoiceNumber?: number;
 
-    @Column({ nullable: true })
-    invoice_amount: number;
+    @Column({
+        name: 'invoice_amount',
+        nullable: true
+    })
+    invoiceAmount: number;
 
     @Column({ nullable: true })
     customer_order_number: string;
 
-    @Column({ nullable: true })
-    carton_id: number;
+    @Column({
+        name: 'carton_id',
+        nullable: true
+    })
+    cartons: number;
 
     @Column({ nullable: true })
     gw?: number;
@@ -62,8 +82,11 @@ export class Shipments {
     @Column({ nullable: true })
     tracking_number?: number;
 
-    @Column({ nullable: true })
-    freight?: string;
+    @Column({
+        name: 'freight',
+        nullable: true
+    })
+    orderCosts?: string;
 
     @Column({ nullable: true })
     eta_date?: Date;
@@ -71,14 +94,29 @@ export class Shipments {
     @Column({ nullable: true })
     comment?: string;
 
-    @Column({ nullable: true })
-    name_vessel?: string;
+    @Column({
+        name: 'name_vessel',
+        nullable: true
+    })
+    nameVessel?: string;
 
-    @Column({ nullable: true })
-    voyage_number?: string;
+    @Column({
+        name: 'voyage_number',
+        nullable: true
+    })
+    voyageNumber?: string;
 
-    @Column({ nullable: true })
-    shipment_mode?: string;
+    @Column({
+        name: 'shipment_mode',
+        nullable: true
+    })
+    shipmentMode?: string;
+
+    @Column({
+        name: 'shipment_seal1',
+        nullable: true
+    })
+    seal1?: string;
 
     @Column({ nullable: true })
     mbl?: string;
@@ -86,14 +124,23 @@ export class Shipments {
     @Column({ nullable: true })
     hbl?: string;
 
-    @Column({ nullable: true })
-    flight_number?: string;
+    @Column({
+        name: 'flight_number',
+        nullable: true
+    })
+    flightNumber?: string;
 
-    @Column({ nullable: true })
-    flight_from?: string;
+    @Column({
+        name: 'flight_from',
+        nullable: true
+    })
+    flightFrom?: string;
 
-    @Column({ nullable: true })
-    flight_date?: Date;
+    @Column({
+        name: 'flight_date',
+        nullable: true
+    })
+    flightDate?: Date;
 
     @Column({ nullable: true })
     mawb1?: string;
@@ -107,8 +154,11 @@ export class Shipments {
     @Column({ nullable: true })
     hawb?: string;
 
-    @Column({ nullable: true })
-    currency_code?: string;
+    @Column({
+        name: 'currency_code',
+        nullable: true
+    })
+    currencyCode?: string;
 
     @Column()
     incoterms: string;
@@ -124,17 +174,29 @@ export class Shipments {
     @Column({ nullable: true })
     reference?: string;
 
-    @Column({ nullable: true })
-    other_costs_ship?: string;
+    @Column({
+        name: 'other_costs_ship',
+        nullable: true
+    })
+    otherCostsShip?: string;
 
-    @Column({ nullable: true })
-    other_costs_air?: string;
+    @Column({
+        name: 'other_costs_air',
+        nullable: true
+    })
+    otherCostsAir?: string;
 
-    @Column({ nullable: true })
-    freight_charges_air?: string;
+    @Column({
+        name: 'freight_charges_air',
+        nullable: true
+    })
+    freightChargesAir?: string;
 
-    @Column({ nullable: true })
-    freight_charges_ship?: string;
+    @Column({
+        name: 'freight_charges_ship',
+        nullable: true
+    })
+    freightChargeShip?: string;
 
 
     @Column({
@@ -144,24 +206,35 @@ export class Shipments {
     })
     deposit: number;
 
-    @ManyToOne(() => BankDetails, (bank_details) => bank_details.shipment_advice)
+    @ManyToOne(() => BankDetails, (bankDetails) => bankDetails.shipment_advice)
     @JoinColumn({
         name: 'bank_details',
         referencedColumnName: 'id'
     })
     bank_details: BankDetails;
 
-    @Column({ nullable: true })
-    po_no: number;
+    @Column({
+        name: 'po_no',
+        nullable: true
+    })
+    poNumber: number;
 
-    @Column({ nullable: true })
-    brand_name: string;
+    @Column({
+        name: 'brand_name',
+        nullable: true
+    })
+    brandName: string;
 
-    @Column({ nullable: true })
-    shipment_from: string;
+    @Column({
+        name: 'shipment_from',
+        nullable: true
+    })
+    shipmentFrom: string;
 
-    @Column({ nullable: true })
-    shipment_tc1: string;
+    @Column({
+        name: 'shipment_tc1',
+        nullable: true
+    }) tc1: string;
 
     @Column({ nullable: true })
     carrier: string;
@@ -175,24 +248,37 @@ export class Shipments {
     })
     destination: Destinations;
 
-    @Column({ nullable: true })
-    dom_nr: string;
-
-    @Column({ nullable: true, default: false })
-    extra_text: boolean;
+    @Column({
+        name: 'dom_nr',
+        nullable: true
+    })
+    domiciliationNumber: string;
 
     @Column({
+        name: 'extra_text',
+        nullable: true
+    })
+    extraText: boolean;
+
+    @Column({
+        name: 'additional_text',
         type: 'boolean',
+        default: false
+    })
+    additionalText: boolean;
+
+    @Column({
+        name: 'customer_invoice',
         default: false,
     })
-    customer_invoice: boolean;
+    customerInvoice: boolean;
 
     @ManyToMany(() => Orderheads)
     @JoinTable({
         name: 'shipments',
         joinColumn: {
             name: 'shipment_code',
-            referencedColumnName: 'shipment_code',
+            referencedColumnName: 'shipmentCode',
         },
         inverseJoinColumn: {
             name: 'orderhead_id',

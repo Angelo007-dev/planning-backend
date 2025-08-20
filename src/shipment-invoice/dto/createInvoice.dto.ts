@@ -5,24 +5,23 @@ import {
     IsDate,
     IsNumber,
     IsBoolean,
-    ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateInvoiceDTO {
     @IsInt()
     @IsOptional()
-    client_id?: number;
+    client?: number;
 
     @IsString()
-    shipment_code: string;
+    shipmentCode: string;
 
     @IsString()
-    invoice_type: string;
+    invoiceType: string;
 
     @IsString()
     @IsOptional()
-    to_address?: string;
+    toAddress?: string;
 
     @IsString()
     @IsOptional()
@@ -31,15 +30,15 @@ export class CreateInvoiceDTO {
     @IsDate()
     @IsOptional()
     @Type(() => Date)
-    invoice_date?: Date;
+    invoiceDate?: Date;
 
     @IsInt()
     @IsOptional()
-    invoice_number?: number;
+    invoiceNumber?: number;
 
     @IsNumber()
     @IsOptional()
-    invoice_amount?: number;
+    invoiceAmount?: number;
 
     @IsString()
     @IsOptional()
@@ -47,7 +46,7 @@ export class CreateInvoiceDTO {
 
     @IsInt()
     @IsOptional()
-    carton_id?: number;
+    cartons?: number;
 
     @IsNumber()
     @IsOptional()
@@ -84,15 +83,15 @@ export class CreateInvoiceDTO {
 
     @IsString()
     @IsOptional()
-    name_vessel?: string;
+    nameVessel?: string;
 
     @IsString()
     @IsOptional()
-    voyage_number?: string;
+    voyageNumber?: string;
 
     @IsString()
     @IsOptional()
-    shipment_mode?: string;
+    shipmentMode?: string;
 
     @IsString()
     @IsOptional()
@@ -104,16 +103,16 @@ export class CreateInvoiceDTO {
 
     @IsString()
     @IsOptional()
-    fligth_number?: string;
+    fligthNumber?: string;
 
     @IsString()
     @IsOptional()
-    flight_from?: string;
+    flightFrom?: string;
 
     @IsDate()
     @IsOptional()
     @Type(() => Date)
-    flight_date?: Date;
+    flightDate?: Date;
 
     @IsString()
     @IsOptional()
@@ -133,7 +132,7 @@ export class CreateInvoiceDTO {
 
     @IsString()
     @IsOptional()
-    currency_code?: string;
+    currencyCode?: string;
 
     @IsString()
     incoterms: string;
@@ -148,42 +147,42 @@ export class CreateInvoiceDTO {
 
     @IsString()
     @IsOptional()
-    other_costs_ship?: string;
+    otherCostShip?: string;
 
     @IsString()
     @IsOptional()
-    other_costs_air?: string;
+    otherCostsAir?: string;
 
     @IsString()
     @IsOptional()
-    freight_charges_air?: string;
+    freightChargesAir?: string;
 
     @IsString()
     @IsOptional()
-    freight_charges_ship?: string;
+    freightChargesShip?: string;
 
     @IsNumber()
     deposit: number;
 
     @IsInt()
     @IsOptional()
-    bank_detailsId?: number;
+    bankDetails?: number;
 
     @IsInt()
     @IsOptional()
-    po_no?: number;
+    poNumber?: number;
 
     @IsString()
     @IsOptional()
-    brand_name?: string;
+    brandName?: string;
 
     @IsString()
     @IsOptional()
-    shipment_from?: string;
+    shipmentFrom?: string;
 
     @IsString()
     @IsOptional()
-    shipment_tc1?: string;
+    tc1?: string;
 
     @IsString()
     @IsOptional()
@@ -191,7 +190,7 @@ export class CreateInvoiceDTO {
 
     @IsInt()
     @IsOptional()
-    destinationId?: number;
+    destination?: number;
 
     @IsString()
     @IsOptional()
@@ -199,10 +198,18 @@ export class CreateInvoiceDTO {
 
     @IsBoolean()
     @IsOptional()
-    extra_text?: boolean;
+    extraText?: boolean;
 
     @IsBoolean()
     @IsOptional()
-    customer_invoice?: boolean;
+    additionalText?: boolean;
+
+    @IsBoolean()
+    @IsOptional()
+    customerInvoice?: boolean;
+
+    @IsString()
+    @IsOptional()
+    seal1?: string;
 
 }

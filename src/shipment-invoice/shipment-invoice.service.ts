@@ -185,9 +185,10 @@ export class ShipmentInvoiceService {
         );
         if (!allSameClient)
             throw new NotFoundException(`Not the same client`);
-        return firstClient;
+        return firstClient
     }
 
+    //create shipmnent
     async create(createDto: CreateShipmentDTO) {
         const {
             //shipment_code,
@@ -241,45 +242,10 @@ export class ShipmentInvoiceService {
         for (const row of shipmentTable) {
             row.shipment_code = generatedShipmentCode;
         }
-        /*
-                const bank_details = bank_details_id
-                    ? await this.bankDetailsRepo.findOne({
-                        where: { id: bank_details_id },
-                        //select: ['id', 'name'],
-                    })
-                    : undefined;
-        
-                const destinations = destination
-                    ? await this.destinationRepo.findOne({
-                        where: { id: destination },
-                        //select: ['id', 'city'],
-                    })
-                    : undefined;
-        
-                const shipment = this.shipmentRepo.create({
-                    shipment_code: generatedShipmentCode,
-                    invoice_type,
-                    incoterms,
-                    deposit,
-                    bank_details: bank_details ?? undefined,
-                    destination: destinations ?? undefined,
-                    additional_text,
-                    customer_invoice,
-                    orderheads: orderheads,
-                    created_at: new Date(),
-                    updated_at: new Date(),
-                });
-        
-                //don't send to the reques when it's undefined
-                /*Object.keys(shipment).forEach((key) => {
-                    if (shipment[key] === undefined) {
-                        delete shipment[key];
-                    }
-                });*/
         // Save
         console.log("shipment to save:", shipmentTable);
         //await this.shipmentRepo.save(shipment);
-        //await this.shipmentTableRepo.save(shipmentTable);
+        await this.shipmentTableRepo.save(shipmentTable);
 
         return {
             shipmentTable,
@@ -287,22 +253,43 @@ export class ShipmentInvoiceService {
     }
 
     async createInvoice(createInvoice: CreateInvoiceDTO): Promise<Shipments> {
-        //const client = createInvoice.clientId ? await this.clientRepo.findOne({ where: { id: createInvoice.clientId } }) : null;
-        //const destination = createInvoice.destinationId ? await this.destinationRepo.findOne({ where: { id: createInvoice.destinationId } }) : null;
-        //const bankDetails = createInvoice.bank_detailsId ? await this.bankDetailsRepo.findOne({ where: { id: createInvoice.bank_detailsId } }) : null;
 
+        //check shipmentcode
+        if (createInvoice.shipmentCode) {
+            const exists = await this.shipmentRepo.exists({
+                where: { shipmentCode: createInvoice.shipmentCode },
+            });
+
+            if (exists) {
+                throw new Error(`Shipment code ${createInvoice.shipmentCode} already exists`);
+            }
+        }
         const shipmentEntity: DeepPartial<Shipments> = {
             ...createInvoice,
-            bank_details: createInvoice.bank_detailsId ? { id: createInvoice.bank_detailsId } : undefined,
-            client: createInvoice.client_id ? { id: createInvoice.client_id } : undefined,
-            destination: createInvoice.destinationId ? { id: createInvoice.destinationId } : undefined,
+            //shipment_code: await this.generateShipmentCode(),
+            additionalText: createInvoice.additionalText ?? false,
+            customerInvoice: createInvoice.customerInvoice ?? false,
+            bank_details: createInvoice.bankDetails ? { id: createInvoice.bankDetails } : undefined,
+            client: createInvoice.client ? { id: createInvoice.client } : undefined,
+            destination: createInvoice.destination ? { id: createInvoice.destination } : undefined,
+            created_at: new Date(),
+            updated_at: new Date(),
         };
 
-        const savedInvoice = await this.shipmentRepo.create(shipmentEntity);
+        const savedInvoice = await this.shipmentRepo.save(shipmentEntity);
 
-        ///await this.generatedInvoicePdf(savedInvoice);
-        return savedInvoice;
+        const invoice = await this.shipmentRepo.findOne({
+            where: { id: savedInvoice.id },
+            relations: ['client', 'bank_details', 'destination'],
+        });
+
+        if (!invoice) {
+            throw new Error('Invoice not found after saving');
+        }
+
+        return invoice;
     }
+
 
     async generatedInvoicePdf(invoice: Shipments): Promise<void> {
 
@@ -328,5 +315,36 @@ export class ShipmentInvoiceService {
         const FormattedNumber = nextNumber.toString().padStart(6, '0');
         return `SHIP${FormattedNumber}`;
     }
+    /*//generate patteren for shipment_code
+    private async generateShipmentCode(): Promise<string> {
+        let code: string;
+        let exists = true;
+
+        do {
+            // get the last shipment_code
+            const lastShipment = await this.shipmentTableRepo
+                .createQueryBuilder('shipment')
+                .where("shipment.shipment_code LIKE :prefix", { prefix: 'SHIP%' })
+                .orderBy('shipment.shipment_code', 'DESC')
+                .getOne();
+
+            let nextNumber = 1;
+            if (lastShipment?.shipment_code) {
+                const lastCode = lastShipment.shipment_code.match(/(\d+)$/);
+                if (lastCode) {
+                    nextNumber = parseInt(lastCode[0], 10) + 1;
+                }
+            }
+
+            const formattedNumber = nextNumber.toString().padStart(6, '0');
+            code = `SHIP${formattedNumber}`;
+
+            // check if it already exist in BS
+            exists = await this.shipmentTableRepo.exists({ where: { shipment_code: code } });
+        } while (exists);
+
+        return code;
+    }
+*/
 
 }
