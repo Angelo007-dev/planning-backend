@@ -4,38 +4,46 @@ import { Orderline } from "../orderlines/orderlines";
 import { Shipments } from "../shipment_advice.entity";
 import { Merchandiser } from "../merchandiser.entity";
 import { Currencies } from "../currencies.entity";
+import { YarnComps } from "../yarncomps.entity";
+import { YarnCounts } from "../yarncount.entity";
 
 @Entity()
 export class Orderheads {
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    code: string
+    code: string;
 
     @Column()
-    confirmdate: Date
+    confirmdate: Date;
+
+    /*@Column({ type: 'json', nullable: true })
+    Yarncomp: string[];
+
+    @Column({ type: 'json', nullable: true })
+    Yarncount: string[];*/
 
     @Column()
-    Yarncomp: string
+    Yarncomp: string;
 
     @Column()
-    Yarncount: string
+    Yarncount: string;
 
     @Column()
     invoice_code: string;
 
     @Column()
-    currency_id: string
+    currency_id: string;
 
     @Column()
-    yarn_eta: Date
+    yarn_eta: Date;
 
     @Column()
-    yarn_etd: Date
+    yarn_etd: Date;
 
     @Column()
-    orderstatus: string
+    orderstatus: string;
 
 
     @ManyToOne(() => Clients, (client) => client.orderhead)

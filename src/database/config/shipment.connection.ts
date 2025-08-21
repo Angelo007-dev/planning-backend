@@ -15,6 +15,8 @@ import { Destinations } from 'src/entities/destination.entity';
 import { Currencies } from 'src/entities/currencies.entity';
 import { CmtInvoices } from 'src/entities/cmt-invoices.entity';
 import { CmtInvoiceLine } from 'src/entities/cmt-invoice-line.entity';
+import { YarnComps } from 'src/entities/yarncomps.entity';
+import { YarnCounts } from 'src/entities/yarncount.entity';
 
 dotenv.config();
 const config = {
@@ -38,7 +40,9 @@ const config = {
         Destinations,
         Currencies,
         CmtInvoices,
-        CmtInvoiceLine
+        CmtInvoiceLine,
+        YarnComps,
+        YarnCounts
     ],
     synchronize: false,
     migrationsRun: false,

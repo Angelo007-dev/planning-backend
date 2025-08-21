@@ -17,6 +17,8 @@ import { CmtInvoices } from 'src/entities/cmt-invoices.entity';
 import { CmtInvoiceService } from './cmt-invoice.service';
 import { CmtInvoiceController } from './cmt-invoice.controller';
 import { CmtInvoiceLine } from 'src/entities/cmt-invoice-line.entity';
+import { YarnComps } from 'src/entities/yarncomps.entity';
+import { YarnCounts } from 'src/entities/yarncount.entity';
 @Module({
     imports: [TypeOrmModule.forFeature([
         Orderline,
@@ -31,7 +33,9 @@ import { CmtInvoiceLine } from 'src/entities/cmt-invoice-line.entity';
         Destinations,
         Currencies,
         CmtInvoices,
-        CmtInvoiceLine
+        CmtInvoiceLine,
+        YarnComps,
+        YarnCounts
     ])],
     providers: [ShipmentInvoiceService, CmtInvoiceService],
     controllers: [ShipmentInvoiceController, CmtInvoiceController]
