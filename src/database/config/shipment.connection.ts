@@ -17,6 +17,7 @@ import { CmtInvoices } from 'src/entities/cmt-invoices.entity';
 import { CmtInvoiceLine } from 'src/entities/cmt-invoice-line.entity';
 import { YarnComps } from 'src/entities/yarncomps.entity';
 import { YarnCounts } from 'src/entities/yarncount.entity';
+import { OrderComposition } from 'src/entities/order-composition.entity';
 
 dotenv.config();
 const config = {
@@ -42,7 +43,8 @@ const config = {
         CmtInvoices,
         CmtInvoiceLine,
         YarnComps,
-        YarnCounts
+        YarnCounts,
+        OrderComposition
     ],
     synchronize: false,
     migrationsRun: false,

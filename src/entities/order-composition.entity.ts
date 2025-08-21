@@ -13,7 +13,7 @@ import {
 import { Orderheads } from './orderhead/orderheads';
 
 @Entity('ordercomposition')
-export class OrderCompositionEntity {
+export class OrderComposition {
     @PrimaryGeneratedColumn()
     id: number;
 
