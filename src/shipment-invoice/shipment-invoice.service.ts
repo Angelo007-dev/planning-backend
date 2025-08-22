@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryParamsDto } from 'src/database/dto/QueryParams.dto';
 import { Orderheads } from 'src/entities/orderhead/orderheads';
 import { Orderline } from 'src/entities/orderlines/orderlines';
-import { DataSource, DeepPartial, In, Repository } from 'typeorm';
+import { DeepPartial, In, Repository } from 'typeorm';
 import { CreateShipmentDTO } from './dto/createShipment.dto';
 import { Shipments } from 'src/entities/shipment_advice.entity';
 import { ShipementsTable } from 'src/entities/shipments.entity';
@@ -12,6 +12,8 @@ import { BankDetails } from 'src/entities/bank-details.entity';
 import { Destinations } from 'src/entities/destination.entity';
 import { Clients } from 'src/entities/client/clients';
 import { CreateInvoiceDTO } from './dto/createInvoice.dto';
+import { AddStyleDto } from './dto/add-new-style.dto';
+import { UpdateStyleDto } from './dto/update-orderline.dto';
 
 @Injectable()
 export class ShipmentInvoiceService {
@@ -346,5 +348,51 @@ export class ShipmentInvoiceService {
         return code;
     }
 */
+    /*******************************************ADD NEW STYLE*************************************************/
+    /*    async addStyleOrderhead(dto: AddStyleDto): Promise<Orderline> {
+            const orderhead = await this.orderheadRepo.findOneBy({ id: dto.orderhead_id });
+            if (!orderhead) {
+                throw new NotFoundException(`Orderhead ${dto.orderhead_id} not found`);
+            }
+    
+            const orderline = this.orderLineRepo.create({
+                order_id: dto.order_id,
+                price: dto.price,
+                style_code: dto.style_code,
+                style_description: dto.style_description,
+                status: dto.status,
+                shipment: dto.shipment,
+                quantity_to_be_shipped: dto.quantity_to_be_shipped,
+                quantity_shipped: dto.quantity_shipped,
+                quantity: dto.quantity,
+                sales_price: dto.sales_price,
+                hs_code: dto.hs_code,
+                terms:dto.terms,
+                orderhead,
+            });
+    
+            return this.orderLineRepo.save(orderline);
+        }
+    */
+    async addStyleOrderhead(dto: AddStyleDto): Promise<Orderline> {
+        const orderhead = await this.orderheadRepo.findOneBy({ id: dto.orderhead_id });
+        if (!orderhead) {
+            throw new NotFoundException(`Orderhead ${dto.orderhead_id} not found`);
+        }
+        const style: DeepPartial<Orderline> = {
+            ...dto,
+            orderhead,
+        }
+        const savedStyle = await this.orderLineRepo.save(style);
+        return savedStyle;
+    }
 
+    async updateStyle(id: number, dto: UpdateStyleDto): Promise<Orderline> {
+        const orderline = await this.orderLineRepo.findOne({ where: { id } });
+        if (!orderline) {
+            throw new NotFoundException(`Orderline ${id} not found`);
+        }
+        Object.assign(orderline, dto);
+        return this.orderLineRepo.save(orderline);
+    }
 }

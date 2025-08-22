@@ -23,6 +23,12 @@ export class Orderline {
     status: string
 
     @Column()
+    shipment?: string;
+
+    @Column()
+    terms?: string;
+
+    @Column()
     quantity_to_be_shipped: number
 
     @Column()
@@ -33,6 +39,9 @@ export class Orderline {
 
     @Column('decimal', { precision: 10, scale: 2 })
     sales_price: number
+
+    @Column('decimal', { precision: 10, scale: 2 })
+    factory_cmt: number
 
     @Column({ type: 'varchar', nullable: true })
     hs_code: string | null

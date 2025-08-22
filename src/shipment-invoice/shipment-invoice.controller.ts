@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Put, Query, Req } from '@nestjs/common';
 import { QueryParamsDto } from 'src/database/dto/QueryParams.dto';
 import { ShipmentInvoiceService } from './shipment-invoice.service';
 import { CreateShipmentDTO } from './dto/createShipment.dto';
 import { Request } from 'express';
 import { Shipments } from 'src/entities/shipment_advice.entity';
 import { CreateInvoiceDTO } from './dto/createInvoice.dto';
+import { AddStyleDto } from './dto/add-new-style.dto';
+import { Orderline } from 'src/entities/orderlines/orderlines';
+import { UpdateStyleDto } from './dto/update-orderline.dto';
 
 @Controller('shipment-invoice')
 export class ShipmentInvoiceController {
@@ -61,5 +64,19 @@ export class ShipmentInvoiceController {
     @Post('/create/invoices')
     createInvoice(@Body() dto: CreateInvoiceDTO)/**:Promise<Shipments> */ {
         return this.shipmentService.createInvoice(dto);
+    }
+
+    /**************************ADD NEW STYLE******************************/
+    @Post('add/style/new')
+    async createNewStyle(@Body() dto: AddStyleDto) {
+        return this.shipmentService.addStyleOrderhead(dto);
+    }
+
+    @Put('/style/update/:id')
+    async updateStyle(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() dto: UpdateStyleDto,
+    ): Promise<Orderline> {
+        return this.shipmentService.updateStyle(id, dto);
     }
 }
